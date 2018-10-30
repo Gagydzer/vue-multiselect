@@ -51,8 +51,8 @@
           autocomplete="off"
           :placeholder="placeholder"
           :style="inputStyle"
-          :value="search"
-          :disabled="disabled"
+          :value="computedSearch"
+          :disabled="disabled || inlineInput"
           :tabindex="tabindex"
           @input="updateSearch($event.target.value)"
           @focus.prevent="activate()"
@@ -86,9 +86,25 @@
           v-show="isOpen"
           @focus="activate"
           tabindex="-1"
-          @mousedown.prevent
+          @mousedown.self.prevent
           :style="{ maxHeight: optimizedHeight + 'px' }"
           ref="list">
+            <input type="text" v- class="dropdown-input" 
+            ref="search"
+            v-if="!isAbove"
+          :placeholder="placeholder"
+          :style="inputStyle"
+          :value="search"
+          :disabled="false"
+          :tabindex="tabindex"
+          @input="updateSearch($event.target.value)"
+          @focus.prevent="activate()"
+          @blur.prevent="deactivate()"
+          @keyup.esc="deactivate()"
+          @keydown.down.prevent="pointerForward()"
+          @keydown.up.prevent="pointerBackward()"
+          @keypress.enter.prevent.stop.self="addPointerElement($event)"
+          @keydown.delete.stop="removeLastElement()"/>
           <ul class="multiselect__content" :style="contentStyle">
             <slot name="beforeList"></slot>
             <li v-if="multiple && max === internalValue.length">
@@ -137,6 +153,27 @@
             </li>
             <slot name="afterList"></slot>
           </ul>
+            <input
+              ref="search"
+              v-if="isAbove"
+              :name="name"
+              :id="id"
+              type="text"
+              autocomplete="off"
+              :disabled="false"
+              :placeholder="placeholder"
+              :style="inputStyle"
+              :value="search"
+              :tabindex="tabindex"
+              @input="updateSearch($event.target.value)"
+              @focus.prevent="activate()"
+              @blur.prevent="deactivate()"
+              @keyup.esc="deactivate()"
+              @keydown.down.prevent="pointerForward()"
+              @keydown.up.prevent="pointerBackward()"
+              @keypress.enter.prevent.stop.self="addPointerElement($event)"
+              @keydown.delete.stop="removeLastElement()"
+              class="multiselect__input"/>
         </div>
       </transition>
   </div>
@@ -285,6 +322,10 @@ export default {
     tabindex: {
       type: Number,
       default: 0
+    },
+    inlineInput: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

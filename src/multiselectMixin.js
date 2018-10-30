@@ -336,6 +336,13 @@ export default {
         ? Array.isArray(this.value) ? this.value : [this.value]
         : []
     },
+    computedSearch () {
+      return !this.inlineInput
+            ? this.search
+            : typeof this.customLabel === 'function'
+              ? this.customLabel(this.value, this.trackBy)
+              : this.value[this.trackBy] || ''
+    },
     filteredOptions () {
       const search = this.search || ''
       const normalizedSearch = search.toLowerCase().trim()
@@ -623,6 +630,8 @@ export default {
     activate () {
       /* istanbul ignore else */
       if (this.isOpen || this.disabled) return
+
+      console.log('activate')
 
       this.adjustPosition()
       /* istanbul ignore else  */
