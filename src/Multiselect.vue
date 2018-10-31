@@ -89,7 +89,7 @@
           @mousedown.self.prevent
           :style="{ maxHeight: optimizedHeight + 'px' }"
           ref="list">
-            <input type="text" v- class="dropdown-input" 
+            <input type="text" class="dropdown-input" 
             ref="search"
             v-if="!isAbove"
           :placeholder="placeholder"
