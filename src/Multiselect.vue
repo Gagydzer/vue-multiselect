@@ -91,7 +91,7 @@
           ref="list">
             <input type="text" class="dropdown-input" 
             ref="search"
-            v-if="!isAbove"
+            v-if="!isAbove && inlineInput"
           :placeholder="placeholder"
           :style="inputStyle"
           :value="search"
@@ -155,7 +155,7 @@
           </ul>
             <input
               ref="search"
-              v-if="isAbove"
+              v-if="isAbove && inlineInput"
               :name="name"
               :id="id"
               type="text"
