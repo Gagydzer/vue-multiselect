@@ -340,8 +340,8 @@ export default {
       return !this.inlineInput
             ? this.search
             : typeof this.customLabel === 'function'
-              ? this.customLabel(this.value, this.trackBy)
-              : this.value[this.trackBy] || ''
+              ? this.customLabel(this.value, this.trackBy, this.label)
+              : this.value[this.label] || ''
     },
     filteredOptions () {
       const search = this.search || ''
