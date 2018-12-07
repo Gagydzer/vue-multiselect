@@ -115,8 +115,5 @@
     "dist",
     "src",
     "index.d.ts"
-  ],
-  "dependencies": {
-    "vue-multiselect": "https://github.com/Gagydzer/vue-multiselect.git#add-inline-input"
-  }
+  ]
 }
