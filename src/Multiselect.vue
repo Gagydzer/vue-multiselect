@@ -87,7 +87,6 @@
           @focus="activate"
           tabindex="-1"
           @mousedown="sustomClickOnDropDownPrevent"
-          :style="{ maxHeight: optimizedHeight + 'px' }"
           ref="list">
             <input type="text" class="dropdown-input" 
             ref="search"
@@ -373,8 +372,8 @@ export default {
     },
     contentStyle () {
       return this.options.length
-        ? { display: 'inline-block' }
-        : { display: 'block' }
+        ? { display: 'inline-block', maxHeight: this.optimizedHeight + 'px' }
+        : { display: 'block', maxHeight: this.optimizedHeight + 'px' }
     },
     isAbove () {
       if (this.openDirection === 'above' || this.openDirection === 'top') {
