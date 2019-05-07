@@ -30,6 +30,26 @@
                 </span>
               </slot>
             </template>
+            <input
+              ref="search"
+              v-if="searchable && visibleValues.length"
+              :name="name"
+              :id="id"
+              type="text"
+              autocomplete="off"
+              :style="inputStyle"
+              :value="search"
+              :disabled="disabled || inlineInput"
+              :tabindex="tabindex"
+              @input="updateSearch($event.target.value)"
+              @focus.prevent="activate()"
+              @blur.prevent="deactivate()"
+              @keyup.esc="deactivate()"
+              @keydown.down.prevent="pointerForward()"
+              @keydown.up.prevent="pointerBackward()"
+              @keypress.enter.prevent.stop.self="addPointerElement($event)"
+              @keydown.delete.stop="removeLastElement()"
+              class="multiselect__input"/>
           </div>
           <template v-if="internalValue && internalValue.length > limit">
             <slot name="limit">
@@ -44,7 +64,7 @@
         </transition>
         <input
           ref="search"
-          v-if="searchable"
+          v-if="searchable && !visibleValues.length"
           :name="name"
           :id="id"
           type="text"
@@ -403,5 +423,4 @@ export default {
 </script>
 
 <style lang="scss">
-
 </style>
